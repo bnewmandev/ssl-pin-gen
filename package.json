@@ -1,0 +1,4 @@
+{
+  "name": "ssl-pin-gen",
+  "packageManager": "yarn@3.6.1"
+}
