@@ -1,26 +1,10 @@
 import { createInterface, Key, emitKeypressEvents } from "readline";
+import { MenuItem, Colors, MenuProps } from "./types.js";
 
-export interface MenuItem<T = void> {
-  title: string;
-  contextPrompt?: string;
-  default: string;
-  run: (context?: string) => Promise<T>
-}
-
-interface MenuProps {
-  items: MenuItem<any>[];
-  prompt: string;
-}
-
-enum Colors {
-  RESET = "\x1b[0m",
-  BLUE = "\x1b[34m",
-  GREEN = "\x1b[32m",
-}
 
 export class Menu {
   private index = 0;
-  private items: MenuItem<any>[];
+  private items: MenuItem[];
   private prompt: string;
 
   constructor(props: MenuProps) {
@@ -75,12 +59,13 @@ export class Menu {
           const currentItem = this.items[this.index]
           process.stdin.setRawMode(false);
           process.stdin.removeListener('keypress', handleKeyPress);
+          console.clear()
 
-          if (currentItem.contextPrompt) {
+          if (currentItem.context) {
             const context = await this.inputText(
-              currentItem.contextPrompt,
+              currentItem.context.prompt,
             );
-            return await currentItem.run(context === '' ? currentItem.default : context)
+            return await currentItem.run(context === '' ? currentItem.context.prompt : context)
           }
 
           return await currentItem.run()
