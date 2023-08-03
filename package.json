@@ -3,7 +3,9 @@
   "packageManager": "yarn@3.6.1",
   "type": "module",
   "scripts": {
-    "dev": "babel-node -x .ts src/index.ts"
+    "start": "node lib/index.js",
+    "dev": "yarn build && yarn start",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/node": "^20.4.6",

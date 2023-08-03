@@ -2,9 +2,9 @@ import { createInterface, Key, emitKeypressEvents } from "readline";
 
 export interface MenuItem<T = void> {
   title: string;
-  contextPrompt: string;
+  contextPrompt?: string;
   default: string;
-  run: (context: string) => Promise<T>
+  run: (context?: string) => Promise<T>
 }
 
 interface MenuProps {
@@ -29,7 +29,7 @@ export class Menu {
   }
 
   private color(text: string, color: Colors): string {
-    return `${color} || ${Colors.RESET}${text}${Colors.RESET}`;
+    return `${color || Colors.RESET}${text}${Colors.RESET}`;
   }
 
   private renderMenu(): void {
@@ -75,11 +75,15 @@ export class Menu {
           const currentItem = this.items[this.index]
           process.stdin.setRawMode(false);
           process.stdin.removeListener('keypress', handleKeyPress);
-          const input = await this.inputText(
-            this.items[this.index].contextPrompt,
-          );
-          const context = input === '' ? currentItem.default : input
-          return await currentItem.run(context === '' ? currentItem.default : context)
+
+          if (currentItem.contextPrompt) {
+            const context = await this.inputText(
+              currentItem.contextPrompt,
+            );
+            return await currentItem.run(context === '' ? currentItem.default : context)
+          }
+
+          return await currentItem.run()
 
         } else if (key.name === 'c' && key.ctrl) process.exit(0);
 
@@ -91,23 +95,5 @@ export class Menu {
       process.stdin.on('keypress', handleKeyPress);
       this.renderMenu();
     })
-  }
-}
-
-const testFuncOne: MenuItem = {
-  title: 'Function One',
-  contextPrompt: 'Please enter more details',
-  default: 'more details',
-  run: async () => {
-    
-  }
-}
-
-const testFuncTwo: MenuItem = {
-  title: 'Function Two',
-  contextPrompt: 'Please enter more details',
-  default: 'more details',
-  run: async () => {
-    
   }
 }

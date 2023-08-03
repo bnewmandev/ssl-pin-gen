@@ -1,4 +1,4 @@
-import { Menu, MenuItem } from "./Menu";
+import { Menu, MenuItem } from "./Menu/Menu.js";
 
 const testFuncOne: MenuItem = {
   title: 'Function One',
@@ -18,4 +18,4 @@ const testFuncTwo: MenuItem = {
   }
 }
 
-new Menu({items: [testFuncOne, testFuncTwo], prompt: 'make a selection'})
+new Menu({items: [testFuncOne, testFuncTwo], prompt: 'make a selection'}).run()
