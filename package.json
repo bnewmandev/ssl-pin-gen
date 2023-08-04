@@ -1,6 +1,6 @@
 {
   "name": "ssl-pin-gen",
-  "version": "0.1.1",
+  "version": "1.0.0-alpha.0",
   "description": "A cli tool and library to generate SSL certificate pins for mobile app pinning",
   "packageManager": "yarn@3.6.1",
   "author": {
