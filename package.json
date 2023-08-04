@@ -2,17 +2,21 @@
   "name": "ssl-pin-gen",
   "version": "0.1.0",
   "packageManager": "yarn@3.6.1",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "author": {
+    "name": "Ben Newman",
+    "email": "ben@bndev.co.uk"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "type": "module",
+  "bin": "./lib/cli.js",
   "scripts": {
-    "start": "node dist/cli.js",
+    "start": "node lib/cli.js",
     "dev": "yarn build && yarn start",
     "build": "tsc",
     "prepublish": "yarn build",
     "tidy": "yarn prettier -w src/*/**.ts"
   },
-  "bin": "./dist/cli.js",
   "devDependencies": {
     "@types/node": "^20.4.6",
     "prettier": "^3.0.1",
@@ -25,10 +29,13 @@
   },
   "np": {
     "branch": "main",
-    "contents": "./dist"
+    "contents": "./lib"
   },
   "volta": {
     "node": "18.17.0",
     "yarn": "3.6.1"
-  }
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }
