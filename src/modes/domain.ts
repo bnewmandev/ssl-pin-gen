@@ -1,18 +1,24 @@
-import { generateOutputFromCertArray, getCertFromHost } from "../utils.js";
+import { generateOutputFromCertArray, getCertFromHost } from '../utils.js';
 
 interface Props {
   domain?: string;
   opts: {
     json: true | undefined;
     prefix: string | undefined;
-  }
+  };
 }
 
-const runDomain = async ({domain, opts}: Props) => {
+const runDomain = async ({ domain, opts }: Props) => {
   if (!domain) {
-    throw new Error("Requires domain to be passed");
+    throw new Error('Requires domain to be passed');
   }
-  console.log(generateOutputFromCertArray(await getCertFromHost(domain), opts.json, opts.prefix));
+  console.log(
+    generateOutputFromCertArray(
+      await getCertFromHost(domain),
+      opts.json,
+      opts.prefix,
+    ),
+  );
 };
 
-export default runDomain
+export default runDomain;

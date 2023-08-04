@@ -9,9 +9,12 @@
     "start": "node dist/cli.js",
     "dev": "yarn build && yarn start",
     "build": "tsc",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build",
+    "tidy": "yarn prettier -w src/*/**.ts"
   },
-  "bin": "./dist/cli",
+  "bin": {
+    "ssl-pin-gen": "./dist/cli.js"
+  },
   "devDependencies": {
     "@types/node": "^20.4.6",
     "prettier": "^3.0.1",
