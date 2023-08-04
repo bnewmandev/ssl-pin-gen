@@ -4,7 +4,7 @@ import {
   readPemFile,
 } from "../utils.js";
 
-const runPath = async (path?: string) => {
+const runLocal = async (path?: string) => {
   if (!path) {
     throw new Error("Requires file path to be passed");
   }
@@ -14,3 +14,5 @@ const runPath = async (path?: string) => {
     ),
   );
 };
+
+export default runLocal

@@ -12,10 +12,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "commander@npm:11.0.0"
+  checksum: 6621954e1e1d078b4991c1f5bbd9439ad37aa7768d6ab4842de1dbd4d222c8a27e1b8e62108b3a92988614af45031d5bb2a2aaa92951f4d0c934d1a1ac564bb4
+  languageName: node
+  linkType: hard
+
 "dotenv@npm:^16.3.1":
   version: 16.3.1
   resolution: "dotenv@npm:16.3.1"
   checksum: 15d75e7279018f4bafd0ee9706593dd14455ddb71b3bcba9c52574460b7ccaf67d5cf8b2c08a5af1a9da6db36c956a04a1192b101ee102a3e0cf8817bbcf3dfd
+  languageName: node
+  linkType: hard
+
+"figlet@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "figlet@npm:1.6.0"
+  bin:
+    figlet: bin/index.js
+  checksum: 7455df4198ab4e260310a2f0bbd8970b8a6c757de16b40f451944eac2a3299f6935b1f40d1cf54d3235c147c9f65ae465533c054ecb7656c076b5cc6037d9274
   languageName: node
   linkType: hard
 
@@ -33,9 +49,13 @@ __metadata:
   resolution: "ssl-pin-gen@workspace:."
   dependencies:
     "@types/node": ^20.4.6
+    commander: ^11.0.0
     dotenv: ^16.3.1
+    figlet: ^1.6.0
     prettier: ^3.0.1
     typescript: ^5.1.6
+  bin:
+    ssl-pin-gen: ./
   languageName: unknown
   linkType: soft
 

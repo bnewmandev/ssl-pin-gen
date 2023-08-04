@@ -67,7 +67,13 @@ const fromBase64CertChain: MenuItem = {
   },
 };
 
-new Menu({
-  prompt: "Select certificate generation method",
-  items: [fromDomain, fromBase64CertChain],
-}).run();
+
+
+const runInteractive = () => {
+  new Menu({
+    prompt: "Select certificate generation method",
+    items: [fromDomain, fromBase64CertChain],
+  }).run();
+}
+
+export default runInteractive
