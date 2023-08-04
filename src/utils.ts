@@ -1,68 +1,68 @@
 import { readFile } from 'fs/promises';
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import { X509Certificate } from 'crypto';
-import * as https from 'https';
+import {  createHash, KeyExportOptions, X509Certificate } from 'crypto';
+import {request, RequestOptions} from 'https';
 import { TLSSocket } from 'node:tls';
+interface CertificateWithSubject {
+  x509: X509Certificate,
+  cn: string
+}
 
-const execAsync = promisify(exec);
-const requestAsync = promisify(https.request);
+const requestAsync = (options: RequestOptions) => {
+  return new Promise<TLSSocket>((resolve, reject) => {
+    const req = request(options, ((res) => {
+      resolve(res.socket as TLSSocket)
+    }))
+    req.end()
+  })
+}
 
 
-const runCmd = async (cmd: string) => {
-  const { stderr, stdout } = await execAsync(cmd);
-  if (stderr) {
-    throw new Error(stdout + '\n\n' + stderr);
+export const getCertFromHost = async (host:string) => {
+  const socket = await requestAsync({host, port: 443})
+  const peerCert = socket.getPeerCertificate(true);
+  const certChain: CertificateWithSubject[] = [];
+  let checkCert = peerCert;
+  while (true) {
+    certChain.push({x509: new X509Certificate(checkCert.raw), cn: checkCert.subject.CN});
+    if (checkCert.fingerprint === checkCert.issuerCertificate.fingerprint || !checkCert.issuerCertificate) break;
+    checkCert = checkCert.issuerCertificate;
   }
-  return stdout;
-};
-
-export const getCertFromDomain = async (domain:string) => {
-  const req = https.request({host: 'uat-external-api.howdens.com', port: 443 })
-  const socket = req.socket as TLSSocket;
-  const baseDerCert = socket.getPeerCertificate(true);
-  console.log()
+  return certChain
 }
 
 
 const certRe =
   /(-----BEGIN CERTIFICATE-----(?:[\s\S]*?)-----END CERTIFICATE-----)/g;
 
-const certNameRe = /(?<=\d .*CN = )[^\r\n,]*/g;
+const cnRe = /(?<=CN=).*/g;
 
-export const extractCertsFromPemString = (pemString: string) => {
+export const extractCertsFromPemString = (pemString: string): CertificateWithSubject[] => {
   const certificates = pemString.match(certRe);
-  const certNames = pemString.match(certNameRe);
-  if (!certificates || !certNames) {
+  if (!certificates) {
     throw new Error("Error reading certificate chain")
   }
-  return certificates.map((cert) => (new X509Certificate(cert)))
+  return certificates.map((cert) => {
+    const x509 = new X509Certificate(cert);
+    const cnMatch = x509.subject.match(cnRe);
+    const cn = cnMatch ? cnMatch[0] : "CN Not found in subject"
+
+    return {x509, cn}
+  })
 };
 
 export const readPemFile = async (path: string) => {
+  try {
   return (await readFile(path)).toString();
+  } catch (error) {
+    throw new Error(`Error reading file: ${path}`)
+  }
 };
 
-export const generatePin = async (certificate: string) => {
-  const pin = await runCmd(
-    `echo "${certificate}" | 
-      openssl x509 -pubkey -noout | 
-      openssl rsa -pubin -outform der 2>/dev/null |
-      openssl dgst -sha256 -binary |
-      openssl enc -base64`,
-  );
-  return pin;
-};
+export const pinFromX509Cert = (cert: X509Certificate) => {
+  const pubkey = cert.publicKey.export({format: 'der', type: 'spki'} as KeyExportOptions<'der'>)
+  return createHash('sha256').update(pubkey).digest().toString('base64')
+}
 
-export const generateChainData = async (pemString: string) => {
-  return await Promise.all(
-    extractCertsFromPemString(pemString).map(async (current) => ({
-      ...current,
-      pin: (await generatePin(current.data)).trim(),
-    })),
-  );
-};
-
-export const formatPinOut = (chainData: CertDataWithPin[]) => {
-  return chainData.map(({pin, name}, i) => (`PUBLIC_KEY_HASH_DEPTH_${i}=${pin} # CN - ${name}`)).join('\n')
-};
+export const generateOutputFromCertArray = (certs: CertificateWithSubject[]) => {
+  return certs.map(({x509, cn}) => (cn || 'UNKNOWN') + ' - ' + pinFromX509Cert(x509)).join('\n')
+}

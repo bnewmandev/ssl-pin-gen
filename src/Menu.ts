@@ -65,7 +65,7 @@ export class Menu {
             const context = await this.inputText(
               currentItem.context.prompt,
             );
-            return await currentItem.run(context === '' ? currentItem.context.prompt : context)
+            return await currentItem.run(context === '' ? currentItem.context.default : context)
           }
 
           return await currentItem.run()

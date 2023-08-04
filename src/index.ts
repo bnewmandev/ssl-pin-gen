@@ -1,17 +1,12 @@
 import "dotenv/config.js"
-import * as https from 'https'
-import {TLSSocket} from 'node:tls'
-import {X509Certificate, createHash} from 'node:crypto'
 
 import { Menu } from "./Menu.js";
 import { MenuItem } from "./types.js";
-import { formatPinOut, generateChainData, getCertFromDomain, readPemFile } from "./utils.js";
-import { KeyExportOptions, publicEncrypt } from "crypto";
+import {  extractCertsFromPemString, generateOutputFromCertArray, getCertFromHost, readPemFile } from "./utils.js";
+
 
 
 const domainOptions = process.env['DOMAIN_OPTIONS'];
-
-
 
 
 const fromDomain: MenuItem = {
@@ -22,8 +17,9 @@ const fromDomain: MenuItem = {
   },
   run: async () => {
     const runner = async (domain: string): Promise<void> => {
-      // console.clear()
-      console.log(formatPinOut(await generateChainData(await getCertFromDomain(domain))))
+      console.clear()
+      console.log(generateOutputFromCertArray(await getCertFromHost(domain)))
+      process.exit(0)
     }
 
     if (domainOptions) {
@@ -46,51 +42,24 @@ const fromDomain: MenuItem = {
   }
 }
 
-const fromB64File: MenuItem = {
-  title: 'Generate from Base64 certificate chain (*.pem | *.crt)',
+const fromBase64CertChain: MenuItem = {
+  title: 'Generate from a Base 64 encoded certificate chain file',
   context: {
-    prompt: "Enter path to certificate (./cert.pem): ",
-    default: './cert.pem',
+    prompt: "Enter path to certificate (./cert.crt): ",
+    default: './cert.crt',
   },
   
   run: async (context) => {
     console.clear()
-    formatPinOut(await generateChainData(await readPemFile(context!)))
+    console.log(generateOutputFromCertArray(extractCertsFromPemString(await readPemFile(context!))))
+    process.exit(0)
   }
 }
 
-// new Menu({prompt: 'Select certificate generation method', items: [fromDomain, fromB64File]}).run()
-
-interface Cert {
-  name: string;
-  x509: string;
-}
-
-const req = https.request({host: 'uat-external-api.howdens.com', port: 443 }, (res) => {
-  const socket = res.socket as TLSSocket;
-  const baseDerCert = socket.getPeerCertificate(true)
-
-  
-
-  const certDepth0 = new X509Certificate(baseDerCert.raw)
-  const certDepth1 = new X509Certificate(baseDerCert.issuerCertificate.raw)
-  const certDepth2 = new X509Certificate(baseDerCert.issuerCertificate.issuerCertificate.raw)
-
-  const hash = createHash('sha256');
-
-  const pubkey = certDepth0.publicKey.export({format: 'der', type: 'spki'} as KeyExportOptions<'der'>)
-  // const pubkey = certDepth0.publicKey.export({format: 'pem', type: 'pkcs1'} as KeyExportOptions<'pem'>)
+new Menu({prompt: 'Select certificate generation method', items: [fromDomain, fromBase64CertChain]}).run()
 
 
-  console.log(pubkey)
-
-  hash.update(pubkey);
-  const hashedPubkey = hash.digest();
-
-  // console.log(publicEncrypt())
-
-  console.log(hashedPubkey.toString('base64'))
-})
-
-
-req.end()
+// (async () => {
+//   const certs = await getCertFromHost('uat-external-api.howdens.com');
+//   console.log(generateOutputFromCertArray(certs))
+// })()
