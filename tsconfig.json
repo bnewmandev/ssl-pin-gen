@@ -6,12 +6,13 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "NodeNext",
-    "outDir": "lib",
+    "outDir": "dist",
+    "declaration": true
   },
   "include": [
     "./src"
   ],
   "exclude": [
-    "./lib"
+    "./dist"
   ]
 }
