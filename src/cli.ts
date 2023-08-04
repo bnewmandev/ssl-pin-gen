@@ -6,20 +6,16 @@ import runLocal from "./modes/local.js";
 
 import { Command } from "@commander-js/extra-typings";
 
-if (!process.env.npm_package_version) {
-  throw new Error("Couldn't find package version")
-}
 
 const program = new Command();
 
 program
   .name('ssl-pin-gen')
   .description('Generate SSL pins from domain or base64 certificate chain')
-  .version(process.env.npm_package_version)
   .option('--json', 'output as json')
   .option('--prefix <string>', 'change output prefix (no effect with --json)')
   .action((options) => {
-    runInteractive(options)
+    runInteractive(options);
   })
   .addHelpCommand();
 
