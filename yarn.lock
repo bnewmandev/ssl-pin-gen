@@ -55,7 +55,7 @@ __metadata:
     prettier: ^3.0.1
     typescript: ^5.1.6
   bin:
-    ssl-pin-gen: ./dist/cli.js
+    ssl-pin-gen: ./lib/cli.js
   languageName: unknown
   linkType: soft
 
