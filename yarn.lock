@@ -5,6 +5,15 @@ __metadata:
   version: 6
   cacheKey: 8
 
+"@commander-js/extra-typings@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "@commander-js/extra-typings@npm:11.0.0"
+  peerDependencies:
+    commander: 11.0.x
+  checksum: c17c60f5044b8ff8891ee94913c1bec64147895a876b5ebf2f7e960efeab61170ce9122eff0f84688bc9db08b520429cdac6c0f3d627e2ef76ebd010461f66cb
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^20.4.6":
   version: 20.4.6
   resolution: "@types/node@npm:20.4.6"
@@ -26,15 +35,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"figlet@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "figlet@npm:1.6.0"
-  bin:
-    figlet: bin/index.js
-  checksum: 7455df4198ab4e260310a2f0bbd8970b8a6c757de16b40f451944eac2a3299f6935b1f40d1cf54d3235c147c9f65ae465533c054ecb7656c076b5cc6037d9274
-  languageName: node
-  linkType: hard
-
 "prettier@npm:^3.0.1":
   version: 3.0.1
   resolution: "prettier@npm:3.0.1"
@@ -48,14 +48,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ssl-pin-gen@workspace:."
   dependencies:
+    "@commander-js/extra-typings": ^11.0.0
     "@types/node": ^20.4.6
     commander: ^11.0.0
     dotenv: ^16.3.1
-    figlet: ^1.6.0
     prettier: ^3.0.1
     typescript: ^5.1.6
   bin:
-    ssl-pin-gen: ./
+    ssl-pin-gen: ./dist/cli
   languageName: unknown
   linkType: soft
 

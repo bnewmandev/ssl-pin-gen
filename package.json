@@ -1,24 +1,25 @@
 {
   "name": "ssl-pin-gen",
+  "version": "0.1.0",
   "packageManager": "yarn@3.6.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node dist/cli.js",
     "dev": "yarn build && yarn start",
     "build": "tsc",
     "prepublish": "yarn build"
   },
-  "bin": "./",
+  "bin": "./dist/cli",
   "devDependencies": {
     "@types/node": "^20.4.6",
     "prettier": "^3.0.1",
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@commander-js/extra-typings": "^11.0.0",
     "commander": "^11.0.0",
-    "dotenv": "^16.3.1",
-    "figlet": "^1.6.0"
+    "dotenv": "^16.3.1"
   }
 }
