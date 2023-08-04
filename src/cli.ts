@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 import runDomain from "./modes/domain.js";
 import runInteractive from "./modes/interactive.js";
 import runLocal from "./modes/local.js";
