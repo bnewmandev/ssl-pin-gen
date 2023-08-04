@@ -1,11 +1,5 @@
-export interface CertData {
-  name: string;
-  data: string;
-}
+import { X509Certificate } from "node:crypto";
 
-export interface CertDataWithPin extends CertData {
-  pin: string;
-}
 
 export interface MenuItem{
   title: string;
@@ -26,3 +20,9 @@ export enum Colors {
   BLUE = "\x1b[34m",
   GREEN = "\x1b[32m",
 }
+
+export interface CertificateWithSubject {
+  x509: X509Certificate,
+  cn: string
+}
+

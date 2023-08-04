@@ -1,11 +1,9 @@
 import { readFile } from 'fs/promises';
-import {  createHash, KeyExportOptions, X509Certificate } from 'crypto';
+import { createHash, KeyExportOptions, X509Certificate } from 'crypto';
 import {request, RequestOptions} from 'https';
 import { TLSSocket } from 'node:tls';
-interface CertificateWithSubject {
-  x509: X509Certificate,
-  cn: string
-}
+import { CertificateWithSubject } from './types.js';
+import path from 'node:path'
 
 const requestAsync = (options: RequestOptions) => {
   return new Promise<TLSSocket>((resolve, reject) => {
@@ -50,11 +48,12 @@ export const extractCertsFromPemString = (pemString: string): CertificateWithSub
   })
 };
 
-export const readPemFile = async (path: string) => {
+export const readPemFile = async (inputPath: string) => {
+  const filePath = path.resolve(inputPath)
   try {
-  return (await readFile(path)).toString();
+  return (await readFile(filePath)).toString();
   } catch (error) {
-    throw new Error(`Error reading file: ${path}`)
+    throw new Error(`Error reading file: ${filePath} | Raw Input: ${inputPath}`)
   }
 };
 
@@ -63,6 +62,9 @@ export const pinFromX509Cert = (cert: X509Certificate) => {
   return createHash('sha256').update(pubkey).digest().toString('base64')
 }
 
-export const generateOutputFromCertArray = (certs: CertificateWithSubject[]) => {
-  return certs.map(({x509, cn}) => (cn || 'UNKNOWN') + ' - ' + pinFromX509Cert(x509)).join('\n')
+export const generateOutputFromCertArray = (certs: CertificateWithSubject[], json: boolean = false, prefix: string = 'KEY_HASH_DEPTH_') => {
+  if (json) {
+    return JSON.stringify(certs.map(({cn, x509}, i) => ({CN: cn, pin: pinFromX509Cert(x509), level: i})))
+  }
+  return certs.map(({x509, cn}, i) => `${prefix}${i}=${pinFromX509Cert(x509)} # ${(cn || 'UNKNOWN')}` ).join('\n')
 }
