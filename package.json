@@ -12,9 +12,7 @@
     "prepublish": "yarn build",
     "tidy": "yarn prettier -w src/*/**.ts"
   },
-  "bin": {
-    "ssl-pin-gen": "./dist/cli.js"
-  },
+  "bin": "./dist/cli.js",
   "devDependencies": {
     "@types/node": "^20.4.6",
     "prettier": "^3.0.1",
