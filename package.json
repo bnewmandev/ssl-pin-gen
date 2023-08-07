@@ -1,6 +1,6 @@
 {
   "name": "ssl-pin-gen",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.1",
   "description": "A cli tool and library to generate SSL certificate pins for mobile app pinning",
   "author": {
     "name": "Ben Newman",
@@ -12,7 +12,7 @@
     "url": "https://github.com/bnewmandev/ssl-pin-gen"
   },
   "homepage": "https://github.com/bnewmandev/ssl-pin-gen#readme",
-  "main": "lib/index.js",
+  "main": "lib/cli.js",
   "types": "lib/index.d.ts",
   "bin": {
     "ssl-pin-gen": "./lib/cli.js"
