@@ -2,8 +2,12 @@
 
 > A cli tool and library to generate SSL certificate pins for mobile app pinning
 
+## Prerequisites
+This project requires NodeJS (version 16 or later)
+
 ## Install
 
+Local installation
 ```sh
 npm install --global ssl-pin-gen
 ```
