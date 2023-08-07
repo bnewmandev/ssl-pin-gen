@@ -25,7 +25,7 @@ const runInteractive = ({ json, prefix }: Props) => {
           default: 'google.com',
           prompt: 'Enter a domain (google.com): ',
         },
-    run: async () => {
+    run: async (context) => {
       const runner = async (domain: string): Promise<void> => {
         console.clear();
         console.log(
@@ -57,6 +57,12 @@ const runInteractive = ({ json, prefix }: Props) => {
         });
 
         new Menu({ prompt: 'Select a domain', items: options }).run();
+      } else {
+        if (context && context !== '') {
+          return runner(context);
+        } else {
+          return runner('google.com');
+        }
       }
     },
   };
