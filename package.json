@@ -1,6 +1,6 @@
 {
   "name": "ssl-pin-gen",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A cli tool and library to generate SSL certificate pins for mobile app pinning",
   "author": {
     "name": "Ben Newman",
@@ -14,11 +14,12 @@
   "homepage": "https://github.com/bnewmandev/ssl-pin-gen#readme",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "type": "module",
-  "bin": "./lib/cli.js",
+  "bin": {
+    "ssl-pin-gen": "./lib/cli.js"
+  },
   "scripts": {
     "start": "node lib/cli.js",
-    "dev": "yarn build && yarn start",
+    "dev": "ts-node src/cli.ts",
     "build": "tsc",
     "prepublish": "yarn build",
     "tidy": "yarn prettier -w src/*/**.ts"
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@types/node": "^20.4.6",
     "prettier": "^3.0.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   },
   "dependencies": {

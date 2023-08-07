@@ -1,5 +1,5 @@
 import { createInterface, Key, emitKeypressEvents } from "readline";
-import { MenuItem, Colors, MenuProps } from "./types.js";
+import { MenuItem, Colors, MenuProps } from './types';
 
 
 export class Menu {

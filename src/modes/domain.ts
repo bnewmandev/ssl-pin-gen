@@ -1,4 +1,4 @@
-import { generateOutputFromCertArray, getCertFromHost } from '../utils.js';
+import { generateOutputFromCertArray, getCertFromHost } from '../utils';
 
 interface Props {
   domain?: string;

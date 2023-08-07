@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises';
 import { createHash, KeyExportOptions, X509Certificate } from 'crypto';
 import {request, RequestOptions} from 'https';
 import { TLSSocket } from 'node:tls';
-import { CertificateWithSubject } from './types.js';
+import { CertificateWithSubject } from './types';
 import path from 'node:path'
 
 const requestAsync = (options: RequestOptions) => {
