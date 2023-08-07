@@ -21,7 +21,6 @@
     "start": "node lib/cli.js",
     "dev": "ts-node src/cli.ts",
     "build": "tsc",
-    "prepublish": "yarn build",
     "tidy": "yarn prettier -w src/*/**.ts"
   },
   "devDependencies": {
