@@ -1,6 +1,6 @@
 {
   "name": "ssl-pin-gen",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-rc.0",
   "description": "A cli tool and library to generate SSL certificate pins for mobile app pinning",
   "author": {
     "name": "Ben Newman",
@@ -36,7 +36,7 @@
     "dotenv": "^16.3.1"
   },
   "volta": {
-    "node": "18.17.0",
+    "node": "16.20.1",
     "yarn": "1.22.19"
   },
   "files": [
