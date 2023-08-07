@@ -17,6 +17,13 @@ program
   .action((options) => {
     runInteractive(options);
   })
+  .addHelpText(
+    'beforeAll',
+    `
+  To use interactively, call without a subcommand:
+    $ ssl-pin-gen [--json] [--prefix <string>]
+  `,
+  )
   .addHelpCommand();
 
 program.command('domain')
