@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 
-import runDomain from "./modes/domain.js";
-import runInteractive from "./modes/interactive.js";
-import runLocal from "./modes/local.js";
+import runDomain from './modes/domain';
+import runInteractive from './modes/interactive';
+import runLocal from './modes/local';
 
 import { Command } from "@commander-js/extra-typings";
 

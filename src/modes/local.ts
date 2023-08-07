@@ -2,7 +2,7 @@ import {
   extractCertsFromPemString,
   generateOutputFromCertArray,
   readPemFile,
-} from '../utils.js';
+} from '../utils';
 
 interface Props {
   path?: string;

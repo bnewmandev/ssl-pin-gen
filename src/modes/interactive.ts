@@ -1,13 +1,13 @@
-import 'dotenv/config.js';
+import 'dotenv/config';
 
-import { Menu } from '../Menu.js';
-import { MenuItem } from '../types.js';
+import { Menu } from '../Menu';
+import { MenuItem } from '../types';
 import {
   extractCertsFromPemString,
   generateOutputFromCertArray,
   getCertFromHost,
   readPemFile,
-} from '../utils.js';
+} from '../utils';
 
 const domainOptions = process.env['DOMAIN_OPTIONS'];
 
